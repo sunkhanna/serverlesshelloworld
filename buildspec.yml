@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - npm install
+      - npm install -g serverless
+	  - npm install --save express serverless-http
+  build:
+    commands:
+      #- npm run-script lint
+      #- npm test
+      - serverless deploy  
+   #   - serverless deploy --stage dev -v
+#       - npm run-script integration
+#   post_build:
+#     commands:
+#       - serverless remove --stage test -v
