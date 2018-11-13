@@ -17,3 +17,7 @@ phases:
 #     commands:
       - serverless deploy –stage $env –region us-east-1 –verbose
 #       - serverless remove --stage test -v
+artifacts:
+files:
+– serverless.yml
+– serverlesshelloworld.zip
