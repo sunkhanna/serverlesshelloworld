@@ -6,6 +6,7 @@ phases:
       - npm install
       - npm install -g serverless
       - npm install express serverless-http
+      - npm install body-parser
   build:
     commands:
       #- npm run-script lint
