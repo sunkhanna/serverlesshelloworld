@@ -9,7 +9,8 @@ const USERS_TABLE = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 app.get('/', async (req, res, next) => {
-  res.status(200).send('Hello World!')
+  return "hello world";
+  //res.status(200).send('Hello World!')
 })
 
 
