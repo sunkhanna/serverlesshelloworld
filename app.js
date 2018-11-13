@@ -12,7 +12,7 @@ app.get('/', async (req, res, next) => {
       return {
         'statusCode': 200,
         'headers': { 'Content-Type': 'application/json' },
-        'body': json.dumps({ 'username': 'bob', 'id': 20 })
+        'body': Json.stringify({ 'username': 'bob', 'id': 20 })
     }
   //res.status(200).send('Hello World!')
 })
