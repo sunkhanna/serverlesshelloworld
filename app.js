@@ -14,7 +14,8 @@ app.get('/', async (req, res, next) => {
         'headers': { 'Content-Type': 'application/json' },
         'body': JSON.stringify({ 'username': 'bob', 'id': 20 })
     }
-      res.send();
+      callback(null,res);
+    //  res.send();
   //res.status(200).send('Hello World!')
 })
 
