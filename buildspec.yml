@@ -15,7 +15,8 @@ phases:
 #       - npm run-script integration
 #   post_build:
 #     commands:
-      - serverless deploy –-stage $env –region us-east-1 –verbose
+      - serverless deploy 
+      #- serverless deploy –-stage $env –region us-east-1 –verbose
 #       - serverless remove --stage test -v
 artifacts:
   files:
