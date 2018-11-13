@@ -19,7 +19,7 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - { "Fn::GetAtt": ["UsersDynamoDBTable", "Arn" ] }
+        - { "Fn::GetAtt": ["UsersDynamoTable", "Arn" ] }
   environment:
     USERS_TABLE: ${self:custom.tableName}
 
@@ -39,7 +39,7 @@ functions:
 
           resources:
 Resources:
-    UsersDynamoDBTable:
+    UsersDynamoTable:
       Type: 'AWS::DynamoDB::Table'
       Properties:
         AttributeDefinitions:
