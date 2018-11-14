@@ -8,7 +8,7 @@ app.use(bodyParser.json({ strict: false }));
 const USERS_TABLE = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-app.hello = (event,context,callback) => {
+module.exports.hello = (event,context,callback) => {
   const response = {
     statusCode:200,
     body:JSON.stringify({
@@ -81,4 +81,4 @@ app.hello = (event,context,callback) => {
 // })
 
 
-module.exports.server = sls(app)
+//module.exports.server = sls(app)
