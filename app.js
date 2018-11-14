@@ -10,11 +10,11 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.hello = (event,context,callback) => {
   const response = {
-    statusCode:200,
-    body:JSON.stringify({
-      message:'my first serverless api',
-      input:event
-    }),
+    'statusCode':200,
+    'headers': { 'Content-Type': 'application/json' },
+    'body':JSON.stringify({
+      message:'my first serverless api'
+    })
   };
    
   callback(null,response);
