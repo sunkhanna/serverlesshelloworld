@@ -8,16 +8,28 @@ app.use(bodyParser.json({ strict: false }));
 const USERS_TABLE = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-app.get('/', async (req, res, next) => {
-      var res = {
-        'statusCode': 200,
-        'headers': { 'Content-Type': 'application/json' },
-        'body': JSON.stringify({ 'username': 'bob', 'id': 20 })
-    }
-      callback(null,res);
-    //  res.send();
-  //res.status(200).send('Hello World!')
-})
+app.hello = (event,context,callback) => {
+  const response = {
+    statusCode:200,
+    body:JSON.stringify({
+      message:'my first serverless api',
+      input:event
+    }),
+  };
+   
+  callback(null,response);
+}
+
+// app.get('/', async (req, res, next) => {
+//       var res = {
+//         'statusCode': 200,
+//         'headers': { 'Content-Type': 'application/json' },
+//         'body': JSON.stringify({ 'username': 'bob', 'id': 20 })
+//     }
+//       callback(null,res);
+//     //  res.send();
+//   //res.status(200).send('Hello World!')
+// })
 
 
 // app.get('/users/:userId', function (req, res) {
