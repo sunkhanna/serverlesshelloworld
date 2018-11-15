@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 //app.use(bodyParser.json({ strict: false }));
 
 const USERS_TABLE = process.env.USERS_TABLE;
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+//const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.hello = (event,context,callback) => {
   var response = {
