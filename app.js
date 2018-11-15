@@ -1,9 +1,9 @@
 const express = require('express')
 const sls = require('serverless-http')
 const bodyParser = require('body-parser')
-const app = express()
+//const app = express()
 
-app.use(bodyParser.json({ strict: false }));
+//app.use(bodyParser.json({ strict: false }));
 
 const USERS_TABLE = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
