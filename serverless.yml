@@ -4,7 +4,7 @@ provider:
   name: aws
   runtime: nodejs8.10
   stage: dev
-  region: eu-central-1
+  region: eu-east-1
   ignore_certs: true
   environment:
     USERS_TABLE: ${self:service}-${opt:stage, self:provider.stage}
