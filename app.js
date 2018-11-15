@@ -12,13 +12,15 @@ module.exports.hello = (event,context,callback) => {
   var response = {
     "statusCode":200,
     "headers": {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+      "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS 
     },
     "body":JSON.stringify({
       message:'my first serverless api'
     }),
   };
-   
+  console.log("response-------------->",response);
   callback(null,response);
 }
 
