@@ -8,17 +8,20 @@ app.use(bodyParser.json({ strict: false }));
 const USERS_TABLE = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-module.exports.hello = (event,context,callback) => {
-  const response = {
-    'statusCode':200,
-    'headers': { 'Content-Type': 'application/json' },
-    'body':JSON.stringify({
+app.hello = (event,context,callback) => {
+  var response = {
+    statusCode:200,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body:JSON.stringify({
       message:'my first serverless api'
-    })
+    }),
   };
    
   callback(null,response);
 }
+
 
 // app.get('/', async (req, res, next) => {
 //       var res = {
