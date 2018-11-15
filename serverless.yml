@@ -32,6 +32,7 @@ functions:
          path: /{proxy+}
          method: ANY
          cors: true
+       - cloudwatchLog: '/aws/lambda/hello'
 
 # functions:
 #   app:
