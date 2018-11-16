@@ -1,4 +1,4 @@
-service: serverless-nodejs-app
+service: serverless-nodejs-application
 
 provider:
   name: aws
