@@ -1,4 +1,4 @@
-const express = require('express')
+//const express = require('express')
 const sls = require('serverless-http')
 const bodyParser = require('body-parser')
 var AWS = require("aws-sdk");
