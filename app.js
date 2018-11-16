@@ -1,12 +1,13 @@
 const express = require('express')
 const sls = require('serverless-http')
 const bodyParser = require('body-parser')
+var AWS = require("aws-sdk");
 //const app = express()
 
 //app.use(bodyParser.json({ strict: false }));
 
 const USERS_TABLE = process.env.USERS_TABLE;
-//const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.hello = (event,context,callback) => {
   var response = {
@@ -25,6 +26,76 @@ module.exports.hello = (event,context,callback) => {
 }
 
 
+module.exports.getUsers = function(event, context, callback){
+	var params = {
+		TableName : USERS_TABLE
+	};
+	documentClient.scan(params, function(err, data){
+		if(err){
+      var response = {
+        "statusCode":403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS 
+        },
+        "body":JSON.stringify(err),
+      };
+		    callback(response, null);
+		}else{
+      var response = {
+        "statusCode":200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS 
+        },
+        "body":JSON.stringify(err),
+      };
+		    callback(null, response);
+		}
+	});
+}
+
+
+module.exports.createUser = function(event, context, callback){
+  var params = {
+    Item : {
+      "id":event.id,
+      "name" : event.name
+    },
+    TableName :  USERS_TABLE
+  };
+  documentClient.put(params, function(err, data){
+    if(err){
+      var response = {
+        "statusCode":403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS 
+        },
+        "body":JSON.stringify(err),
+      };
+      callback(response, null);
+    }else{
+      var response = {
+        "statusCode":200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS 
+        },
+        "body":JSON.stringify(data),
+      };
+      callback(null,response)
+    }
+  });
+}
+
+// module.exports.getData = (event,context,callback) => {
+
+// }
 // app.get('/', async (req, res, next) => {
 //       var res = {
 //         'statusCode': 200,
