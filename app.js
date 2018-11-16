@@ -30,7 +30,7 @@ module.exports.getUsers = function(event, context, callback){
 	var params = {
 		TableName : USERS_TABLE
 	};
-	documentClient.scan(params, function(err, data){
+	dynamoDb.scan(params, function(err, data){
 		if(err){
       var response = {
         "statusCode":403,
@@ -66,7 +66,7 @@ module.exports.createUser = function(event, context, callback){
     },
     TableName :  USERS_TABLE
   };
-  documentClient.put(params, function(err, data){
+  dynamoDb.put(params, function(err, data){
     if(err){
       var response = {
         "statusCode":403,
