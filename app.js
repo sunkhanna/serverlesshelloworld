@@ -57,11 +57,11 @@ module.exports.getUsers = function(event, context, callback){
 	});
 }
 
-
 module.exports.createUser = function(event, context, callback){
+  console.log("event--------------->",event);
   var params = {
     Item : {
-      "id":event.id,
+      "userId":event.userId,
       "name" : event.name
     },
     TableName :  USERS_TABLE
@@ -69,6 +69,7 @@ module.exports.createUser = function(event, context, callback){
   dynamoDb.put(params, function(err, data){
 	   
     if(err){
+      console.log("err-------------->",err);
 	    console.log("in error code,unable to create user");
       var response = {
         "statusCode":403,
@@ -81,7 +82,7 @@ module.exports.createUser = function(event, context, callback){
       };
       callback(response, null);
     }else{
-	    console.log("in success code,able to create user");
+      console.log("in success code,able to create user");
       var response = {
         "statusCode":200,
         "headers": {
