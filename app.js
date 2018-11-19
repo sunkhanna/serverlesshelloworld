@@ -59,14 +59,20 @@ module.exports.getUsers = function(event, context, callback){
 
 module.exports.createUser = function(event, context, callback){
   console.log("event--------------->",event);
-	 console.log("event--------------->",event.body);
+	 console.log("event--------------->",event.body);	 
+	  var json = JSON.parse(event.body);
+  console.log("json----------------------->",json.userId);
+	 console.log("user id--------------->",event.body.userId);
+	 	 console.log("name--------------->",event.body.name);
   var param = {
     Item : {
-      "userId":event.body.userId,
-      "name" : event.body.name
+      "userId":json.userId,
+      "name" :json.name
     },
     TableName :  USERS_TABLE
   };
+  
+  console.log("oaram ---------------------------->>>>>>",param);
   
   dynamoDb.put(param, function(err, data){
 	   
