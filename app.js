@@ -59,6 +59,7 @@ module.exports.getUsers = function(event, context, callback){
 
 module.exports.createUser = function(event, context, callback){
   console.log("event--------------->",event);
+	 console.log("event--------------->",event.body);
   var param = {
     Item : {
       "userId":event.userId,
