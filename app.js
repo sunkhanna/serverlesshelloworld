@@ -62,8 +62,8 @@ module.exports.createUser = function(event, context, callback){
 	 console.log("event--------------->",event.body);
   var param = {
     Item : {
-      "userId":event.userId,
-      "name" : event.name
+      "userId":event.body.userId,
+      "name" : event.body.name
     },
     TableName :  USERS_TABLE
   };
