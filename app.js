@@ -1,6 +1,5 @@
 var AWS = require("aws-sdk");
 
-
 const USERS_TABLE = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -65,8 +64,6 @@ module.exports.createUser = function(event, context, callback){
   dynamoDb.put(param, function(err, data){
 	   
     if(err){
-      console.log("err-------------->",err);
-	    console.log("in error code,unable to create user");
       var response = {
         "statusCode":403,
         "headers": {
