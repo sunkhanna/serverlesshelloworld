@@ -31,8 +31,8 @@ module.exports.processXmlDataFromS3 = async function(evenr, context, callback) {
  // var s3 = new AWS.S3({apiVersion: '2006-03-01'});
 var params = {Bucket: 'xmltester123', Key: 'data.xml'};
   console.log("params",params);
-var file = require('fs').createWriteStream(__dirname+'/data.xml');
-  console.log("path",__dirname+'/data.xml');
+var file = require('fs').createWriteStream("c:\users\local\"+'\data.xml');
+ // console.log("path",__dirname+'/data.xml');
 s3.getObject(params).createReadStream().pipe(file);
   console.log("end---");
 }
