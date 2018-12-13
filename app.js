@@ -32,17 +32,30 @@ var downloadZipFromS3 = localDestination => {
 
   console.log("in download zip from s3", localDestination);
 
-  let file = fs.createWriteStream(localDestination);
+  let file = fs.createWriteStreamSync(localDestination);
 
-  s3.getObject(options)
-    .createReadStream()
-    .on("end", () => {
-      console.log("done");
-      resolve("succesfully downloaded the file");
-    })
-    .on("error", error => {
-      console.log("not done", error);
-      reject(error);
-    })
-    .pipe(file);
+  s3.getObject(options, function(err, data) {
+    // Handle any error and exit
+    if (err) {
+      console.log("err", err);
+      return err;
+    } else console.log("data", data);
+
+    // No error happened
+    // Convert Body from a Buffer to a String
+
+    //let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
+  });
 };
+//   s3.getObject(options)
+//     .createReadStream()
+//     .on("end", () => {
+//       console.log("done");
+//       resolve("succesfully downloaded the file");
+//     })
+//     .on("error", error => {
+//       console.log("not done", error);
+//       reject(error);
+//     })
+//     .pipe(file);
+// };
