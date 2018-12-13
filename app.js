@@ -37,9 +37,11 @@ module.exports.processXmlDataFromS3 = async function(evenr, context, callback) {
       console.log(err);
     })
     .on("httpData", function(chunk) {
+    console.log("received chunk",chunk);
       file.write(chunk);
     })
     .on("httpDone", function() {
+    console.log("end...",end);
       file.end();
     })
     .send();
