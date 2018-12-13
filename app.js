@@ -10,6 +10,7 @@ var path = require("path");
 var s3 = new AWS.S3();
 
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
+  console.log("processXmlDataFromS3");
   // var localDestination = path.join(__dirname, options.key);
 
   var localDestination = __dirname + "/xmlsamples.zip";
@@ -17,12 +18,13 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
     localDestination = keyName;
   }
 
-//  var response = await downloadZipFromS3(localDestination);
+  var response = await downloadZipFromS3(localDestination);
 
-//  console.log("response finalllllllll", response);
+  console.log("response finalllllllll", response);
 };
 
 var downloadZipFromS3 = localDestination => {
+  console.log("download zip");
   let options = {
     Bucket: "https://s3.eu-central-1.amazonaws.com/serverlessnodeapp/",
     Key: "xmlsamples.zip"
@@ -39,17 +41,14 @@ var downloadZipFromS3 = localDestination => {
     if (err) {
       console.log("err", err);
       return err;
-    } else 
-    {
-      console.log("data", data);
-    }
+    } else console.log("data", data);
 
     // No error happened
     // Convert Body from a Buffer to a String
 
     //let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
   });
-}
+};
 //   s3.getObject(options)
 //     .createReadStream()
 //     .on("end", () => {
