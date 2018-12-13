@@ -33,7 +33,7 @@ var downloadZipFromS3 = localDestination => {
 
   console.log("in download zip from s3", localDestination);
 
-  let file = fs.createWriteStreamSync(localDestination);
+  //let file = fs.createWriteStream(localDestination);
 
   return new promise(function(resolve, reject) {
     console.log("in promise");
