@@ -12,7 +12,7 @@ var s3 = new AWS.S3();
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
   // var localDestination = path.join(__dirname, options.key);
 
-  var localDestination = __dirname + "/" + options.key;
+  var localDestination = __dirname + "/xmlsamples.zip";
   if (typeof localDestination == "undefined") {
     localDestination = keyName;
   }
@@ -23,7 +23,7 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
 };
 
 var downloadZipFromS3 = localDestination => {
-  var options = {
+  let options = {
     Bucket: "https://s3.eu-central-1.amazonaws.com/serverlessnodeapp/",
     Key: "xmlsamples.zip"
   };
