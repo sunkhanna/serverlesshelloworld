@@ -9,7 +9,6 @@ var path = require("path");
 var s3 = new AWS.S3();
 
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
- 
   console.log("processXmlDataFromS3");
   // var localDestination = path.join(__dirname, options.key);
 
@@ -18,7 +17,7 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
     localDestination = keyName;
   }
 
-  file = fs.createWriteStream(localDestination);
+  //file = fs.createWriteStream(localDestination);
 
   var response = await downloadZipFromS3(localDestination);
 
@@ -30,7 +29,7 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
 };
 
 var downloadZipFromS3 = localDestination => {
-  file = fs.createWriteStream(localDest);
+  file = fs.createWriteStream(localDestination);
 
   console.log("download zip");
   let options = {
