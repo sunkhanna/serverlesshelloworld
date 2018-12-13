@@ -30,8 +30,8 @@ module.exports.processXmlDataFromS3 = async function(evenr, context, callback) {
   //   }),
   file = fs.createWriteStream("abc.xml");
   s3.getObject({
-    Bucket: xmltester123,
-    Key: data.xml
+    Bucket: "xmltester123",
+    Key: "data.xml"
   })
     .on("error", function(err) {
       console.log(err);
