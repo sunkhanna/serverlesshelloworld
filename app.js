@@ -9,7 +9,7 @@ var path = require("path");
 var s3 = new AWS.S3();
 
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
-  file = fs.createWriteStream(localDest);
+ 
   console.log("processXmlDataFromS3");
   // var localDestination = path.join(__dirname, options.key);
 
@@ -17,6 +17,8 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
   if (typeof localDestination == "undefined") {
     localDestination = keyName;
   }
+
+  file = fs.createWriteStream(localDestination);
 
   var response = await downloadZipFromS3(localDestination);
 
