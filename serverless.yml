@@ -21,27 +21,6 @@ provider:
       #  - { "Fn::GetAtt": ["UsersDynamoTable", "Arn" ] }
 
 functions:
-  helloserverless:
-    handler: app.hello # reference the file and exported method
-    events: # events trigger lambda functions
-      - http: # this is an API Gateway HTTP event trigger
-          path: helloserverless
-          method: GET
-          cors: true
-  getuser:
-    handler: app.getUsers # reference the file and exported method
-    events: # events trigger lambda functions
-      - http: # this is an API Gateway HTTP event trigger
-          path: getusers
-          method: GET
-          cors: true
-  createuser:
-    handler: app.createUser # reference the file and exported method
-    events: # events trigger lambda functions
-      - http: # this is an API Gateway HTTP event trigger
-          path: createuser
-          method: POST
-          cors: true
   processXmlDataFromS3:
     handler: app.processXmlDataFromS3
     events:
