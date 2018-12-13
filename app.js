@@ -5,7 +5,6 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 const fs = require("fs");
 const join = require("path").join;
-const s3Zip = require("s3-zip");
 var path = require("path");
 var s3 = new AWS.S3();
 
@@ -34,20 +33,33 @@ var downloadZipFromS3 = localDestination => {
 
   console.log("in download zip from s3", localDestination);
 
-  let file = fs.createWriteStream(localDestination);
+  let file = fs.createWriteStreamSync(localDestination);
 
-  s3.getObject(options, function(err, data) {
-    // Handle any error and exit
-    if (err) {
-      console.log("err", err);
-      return err;
-    } else console.log("data", data);
-
-    // No error happened
-    // Convert Body from a Buffer to a String
-
-    //let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
+  return new promise(function(resolve, reject) {
+    console.log("in promise");
+    s3.getObject(options, function(err, data) {
+      console.log("get objectsssssssssssssssss");
+      if (err) {
+        console.log("get objectsssssssssssssssss error", err);
+        reject(err);
+      } else {
+        console.log("get objectsssssssssssssssss data", data);
+        resolve(data);
+      }
+    });
   });
+  console.log("in getting object");
+  // Handle any error and exit
+  // if (err) {
+  //   console.log("err", err);
+  //   return err;
+  // } else console.log("data", data);
+
+  // No error happened
+  // Convert Body from a Buffer to a String
+
+  //let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
+  // });
 };
 //   s3.getObject(options)
 //     .createReadStream()
