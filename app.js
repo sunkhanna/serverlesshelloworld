@@ -95,7 +95,7 @@ module.exports.createUser = function(event, context, callback) {
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
   var options = {
     Bucket: "https://s3.eu-central-1.amazonaws.com/serverlessnodeapp/",
-    Key: "xmlsamples.zip"
+    Key: xmlsamples.zip
   };
 
   var localDestination = path.join(__dirname, options.Key);
