@@ -8,7 +8,7 @@ const join = require("path").join;
 const s3Zip = require("s3-zip");
 
 // var path = require("path");
-// var s3 = new AWS.S3();
+ var s3 = new AWS.S3();
 
 // module.exports.processXmlDataFromS3 = function() {
 //   const region = "eu-central-1";
