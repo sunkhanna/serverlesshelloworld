@@ -28,24 +28,14 @@ module.exports.processXmlDataFromS3 = async function(evenr, context, callback) {
   //     accessKeyId: accessKeyId,
   //     secretAccessKey: secretAccessKey
   //   }),
-  file = fs.createWriteStream(__dirname+"/abc.xml");
-  s3.getObject({
-    Bucket: "xmltester123",
-    Key: "data.xml"
-  })
-    .on("error", function(err) {
-      console.log(err);
-    })
-    .on("httpData", function(chunk) {
-    console.log("received chunk",chunk);
-      file.write(chunk);
-    })
-    .on("httpDone", function() {
-    console.log("end...",end);
-      file.end();
-    })
-    .send();
-};
+ // var s3 = new AWS.S3({apiVersion: '2006-03-01'});
+var params = {Bucket: 'xmltester123', Key: 'data.xml'};
+  console.log("params",params);
+var file = require('fs').createWriteStream(__dirname+'/data.xml');
+  console.log("path",__dirname+'/data.xml');
+s3.getObject(params).createReadStream().pipe(file);
+  console.log("end---");
+}
 
 // module.exports.processXmlDataFromS3 = async function(event, context, callback) {
 //   console.log("processXmlDataFromS3");
