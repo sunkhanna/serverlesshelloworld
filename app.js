@@ -28,7 +28,7 @@ module.exports.processXmlDataFromS3 = async function(evenr, context, callback) {
   //     accessKeyId: accessKeyId,
   //     secretAccessKey: secretAccessKey
   //   }),
-  file = fs.createWriteStream("abc.xml");
+  file = fs.createWriteStream(__dirname+"/abc.xml");
   s3.getObject({
     Bucket: "xmltester123",
     Key: "data.xml"
