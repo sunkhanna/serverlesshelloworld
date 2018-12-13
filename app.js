@@ -35,7 +35,7 @@ var downloadZipFromS3 = localDestination => {
 
   //let file = fs.createWriteStream(localDestination);
 
-  return new promise(function(resolve, reject) {
+  return new Promise(function(resolve, reject) {
     console.log("in promise");
     s3.getObject(options, function(err, data) {
       console.log("get objectsssssssssssssssss");
