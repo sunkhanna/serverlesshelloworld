@@ -10,11 +10,6 @@ var path = require("path");
 var s3 = new AWS.S3();
 
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
-  var options = {
-    Bucket: "https://s3.eu-central-1.amazonaws.com/serverlessnodeapp/",
-    Key: "xmlsamples.zip"
-  };
-
   // var localDestination = path.join(__dirname, options.key);
 
   var localDestination = __dirname + "/" + options.key;
@@ -22,15 +17,22 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
     localDestination = keyName;
   }
 
-  var response = await downloadZipFromS3(options, localDestination);
+  var response = await downloadZipFromS3(localDestination);
 
   console.log("response finalllllllll", response);
 };
 
-var downloadZipFromS3 = (options, localDestination) => {
-  console.log("in download zip from s3", options, localDestination);
+var downloadZipFromS3 = localDestination => {
+  var options = {
+    Bucket: "https://s3.eu-central-1.amazonaws.com/serverlessnodeapp/",
+    Key: "xmlsamples.zip"
+  };
 
-  let file = fs.createWriteStream(localDestination);
+  console.log("options", options);
+
+  console.log("in download zip from s3", localDestination);
+
+  let file = fs.createWriteStreamSync(localDestination);
 
   s3.getObject(options)
     .createReadStream()
@@ -39,7 +41,7 @@ var downloadZipFromS3 = (options, localDestination) => {
       resolve("succesfully downloaded the file");
     })
     .on("error", error => {
-      console.log("not done");
+      console.log("not done", error);
       reject(error);
     })
     .pipe(file);
