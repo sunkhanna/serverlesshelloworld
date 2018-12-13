@@ -15,10 +15,11 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
     Key: "xmlsamples.zip"
   };
 
-  var localDestination = path.join(__dirname, options.key);
+  // var localDestination = path.join(__dirname, options.key);
 
-  if (typeof localDest == "undefined") {
-    localDest = keyName;
+  var localDestination = __dirname + "/" + options.key;
+  if (typeof localDestination == "undefined") {
+    localDestination = keyName;
   }
 
   var response = await downloadZipFromS3(options, localDestination);
