@@ -25,7 +25,7 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
 var downloadZipFromS3 = localDestination => {
   console.log("download zip");
   let options = {
-    Bucket: "https://s3.eu-central-1.amazonaws.com/serverlessnodeapp/",
+    Bucket: "serverlessnodeapp",
     Key: "xmlsamples.zip"
   };
 
