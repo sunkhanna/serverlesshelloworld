@@ -42,25 +42,28 @@ functions:
           path: createuser
           method: POST
           cors: true
+  processXmlDataFromS3:
+    handler: app.processXmlDataFromS3
+    events:
+      - http:
+          path: processXmlDataFromS3
+          method: POST
+          cors: true
       # - http: # all routes get proxied to the Express router
       #     path: /{proxy+}
       #     method: ANY
       #     cors: true
 
-
-          
 resources:
   Resources:
     UsersDynamoTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
-          -
-            AttributeName: userId
+          - AttributeName: userId
             AttributeType: S
         KeySchema:
-          -
-            AttributeName: userId
+          - AttributeName: userId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
