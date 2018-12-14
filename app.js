@@ -9,7 +9,6 @@ const s3Zip = require("s3-zip");
 var path = require("path");
 var s3 = new AWS.S3();
 
-
 module.exports.hello = (event, context, callback) => {
   var response = {
     statusCode: 200,
@@ -103,33 +102,30 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
 
 var downloadZipFromS3 = () => {
   console.log("in download zip from s3");
-     let options = {
-      Bucket: "xmltester123",
-      Key: "xmlsamples.zip"
-     };
+  let options = {
+    Bucket: "xmltester123",
+    Key: "xmlsamples.zip"
+  };
   return new Promise(function(resolve, reject) {
-    s3.getObject(options, function(err, data){   
+    s3.getObject(options, function(err, data) {
       if (err) {
         console.log("error in getting data");
         reject(err);
-      }
-      else{
-        console.log("got the data",data);
-        fs.writeFile('/tmp/filename', data.Body, function(err){
-          if(err){
+      } else {
+        console.log("got the data", data);
+        fs.writeFile("/tmp/filename", data.Body, function(err) {
+          if (err) {
             console.log("error in writing the file to temporary folder");
-               reject(err);
-          }
-          else{
+            reject(err);
+          } else {
             console.log("succesfully downloaded the file");
-             resolve("File succesfuly downloaded");
+            resolve("File succesfuly downloaded");
           }
         });
       }
     });
-  }
-
-
+  });
+};
 
 // var downloadZipFromS3 = () => {
 //   let options = {
