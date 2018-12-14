@@ -107,7 +107,7 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
   // var response = await downloadZipFromS3();
   console.log("response finalllllllll", unzipFileResponse);
   // var finalResponse = await writeDataToLocalFileSystem(response);
-  var processUnzippedFilesResponse = await processUnzippedFiles();
+ // var processUnzippedFilesResponse = await processUnzippedFiles();
 };
 
 var unzipFile = () => {
@@ -125,8 +125,17 @@ var unzipFile = () => {
           console.log("error in unzipping file");
           reject(err);
         } else {
-          console.log("unzipped file succesfully");
-          reject(success);
+          s3.listObjects({}, function(err, data) {
+            if (err) {
+              console.log("error in listing data");
+              reject(err);
+            } else {
+              console.log("resolved dataaaaaaaaaaaa", data);
+              resolve(data);
+            }
+          });
+          // console.log("unzipped file succesfully");
+          // resolve(success);
         }
       }
     );
