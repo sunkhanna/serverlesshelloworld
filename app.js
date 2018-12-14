@@ -9,6 +9,8 @@ const s3Zip = require("s3-zip");
 var path = require("path");
 var s3 = new AWS.S3();
 
+var s3Unzip = require("s3-unzip");
+
 module.exports.hello = (event, context, callback) => {
   var response = {
     statusCode: 200,
@@ -95,9 +97,33 @@ module.exports.createUser = function(event, context, callback) {
 
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
   console.log("processXmlDataFromS3");
-  var response = await downloadZipFromS3();
+  var response = await unzipFile();
+  // var response = await downloadZipFromS3();
   console.log("response finalllllllll", response);
   // var finalResponse = await writeDataToLocalFileSystem(response);
+};
+
+var unzipFile = () => {
+  console.log("running unzip file function");
+  return new Promise(function(resolve, reject) {
+    new s3Unzip(
+      {
+        bucket: "xmltester123",
+        file: "xmlsamples.zip",
+        deleteOnSuccess: false,
+        verbose: true
+      },
+      function(err, success) {
+        if (err) {
+          console.log("error in unzipping file");
+          reject(err);
+        } else {
+          console.log("unzipped file succesfully");
+          reject(success);
+        }
+      }
+    );
+  });
 };
 
 var downloadZipFromS3 = () => {
