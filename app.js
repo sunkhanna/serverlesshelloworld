@@ -7,9 +7,15 @@ const fs = require("fs");
 const join = require("path").join;
 const s3Zip = require("s3-zip");
 var path = require("path");
-var s3 = new AWS.S3();
-
 var s3Unzip = require("s3-unzip");
+//var s3 = new AWS.S3();
+
+//var s3 = new AWS.S3()
+
+var s3 = new AWS.S3({
+  accessKeyId: "AKIAJA2XHQGM43HDZ2SA", //REQUIRED
+  secretAccessKey: "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" //REQUIRED
+});
 
 module.exports.hello = (event, context, callback) => {
   var response = {
@@ -97,10 +103,11 @@ module.exports.createUser = function(event, context, callback) {
 
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
   console.log("processXmlDataFromS3");
-  var response = await unzipFile();
+  var unzipFileResponse = await unzipFile();
   // var response = await downloadZipFromS3();
-  console.log("response finalllllllll", response);
+  console.log("response finalllllllll", unzipFileResponse);
   // var finalResponse = await writeDataToLocalFileSystem(response);
+  var processUnzippedFilesResponse = await processUnzippedFiles();
 };
 
 var unzipFile = () => {
@@ -123,6 +130,29 @@ var unzipFile = () => {
         }
       }
     );
+  });
+};
+
+var processUnzippedFiles = () => {
+  console.log("process unzipped files");
+  return new Promise(function(resolve, reject) {
+    s3.listObjects({}, function(err, data) {
+      if (err) {
+        console.log("errorrrrrrrrrrrrrrrrrr", err);
+      } else {
+        console.log("dataaaaaaaaaaaaaaaaaaaaaa", data);
+      }
+      // if (err) {
+      //   console.log("errorrrrrrrrrrrr----->", err);
+      //   reject("error in listing objects");
+      //   // console.log(err, err.stack);
+      // } else {
+      //   console.log("objects listedddddd", data);
+      //   data.Contents.forEach(function(currentValue, index, array) {
+      //     console.log("Retrieving the file : " + currentValue.Key);
+      //   });
+      // }
+    });
   });
 };
 
