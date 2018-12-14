@@ -3,7 +3,7 @@ var AWS = require("aws-sdk");
 const USERS_TABLE = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-const fs = require("fs");
+//const fs = require("fs");
 const join = require("path").join;
 const s3Zip = require("s3-zip");
 var path = require("path");
