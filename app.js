@@ -113,7 +113,7 @@ var downloadZipFromS3 = () => {
         reject(err);
       } else {
         console.log("got the data", data);
-        fs.writeFile("%temp%", data.Body, function(err) {
+        fs.writeFile("/tmp", data.Body, function(err) {
           if (err) {
             console.log("error in writing the file to temporary folder");
             reject(err);
