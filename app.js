@@ -129,7 +129,7 @@ var unzipFile = () => {
           console.log("error in unzipping file");
           reject(err);
         } else {
-          s3.listObjects({ options }, function(err, data) {
+          s3.listObjects(options, function(err, data) {
             if (err) {
               console.log("error in listing data");
               reject(err);
