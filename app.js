@@ -12,10 +12,7 @@ var s3Unzip = require("s3-unzip");
 
 //var s3 = new AWS.S3()
 
-var s3 = new AWS.S3({
-  accessKeyId: "AKIAJA2XHQGM43HDZ2SA", //REQUIRED
-  secretAccessKey: "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" //REQUIRED
-});
+var s3 = new AWS.S3();
 
 module.exports.hello = (event, context, callback) => {
   var response = {
