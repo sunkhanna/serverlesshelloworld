@@ -8,6 +8,7 @@ const join = require("path").join;
 const s3Zip = require("s3-zip");
 var path = require("path");
 var s3 = new AWS.S3();
+var fs = require("fs");
 
 module.exports.hello = (event, context, callback) => {
   var response = {
@@ -94,6 +95,7 @@ module.exports.createUser = function(event, context, callback) {
 };
 
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
+  //fs.mkdirSync(params.Bucket+ "/" + <FolderName>);
   console.log("processXmlDataFromS3");
   var response = await downloadZipFromS3();
   console.log("response finalllllllll", response);
@@ -105,6 +107,9 @@ var downloadZipFromS3 = () => {
     Bucket: "xmltester123",
     Key: "xmlsamples.zip"
   };
+
+  fs.mkdirSync(options.Bucket);
+
   return new Promise(function(resolve, reject) {
     console.log("in promise");
     s3.getObject(options, function(err, data) {
@@ -114,7 +119,12 @@ var downloadZipFromS3 = () => {
         reject(err);
       } else {
         console.log("get objectsssssssssssssssss data", data);
-        resolve(data);
+        fs.writeFile(params.Bucket, data.Body, function() {
+          console.log("in writing file");
+          resolve("Finished downloading the file", data.key);
+          //console.log("Finished downloading the file: " + currentValue.Key);
+        });
+        //resolve(data);
       }
     });
   });
