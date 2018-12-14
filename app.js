@@ -113,7 +113,7 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
 var unzipFile = () => {
   let options = {
     Bucket: "xmltester123",
-    Key: "xmlsamples.zip"
+    Delimiter: "/xmlsamples/"
   };
   console.log("running unzip file function");
   return new Promise(function(resolve, reject) {
@@ -129,7 +129,7 @@ var unzipFile = () => {
           console.log("error in unzipping file");
           reject(err);
         } else {
-          s3.listObjects(options, function(err, data) {
+          s3.listObjects({ options }, function(err, data) {
             if (err) {
               console.log("error in listing data");
               reject(err);
