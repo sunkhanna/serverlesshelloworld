@@ -1,138 +1,121 @@
 var AWS = require("aws-sdk");
 
-//const USERS_TABLE = process.env.USERS_TABLE;
-//const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const USERS_TABLE = process.env.USERS_TABLE;
+const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 const fs = require("fs");
 const join = require("path").join;
 const s3Zip = require("s3-zip");
-
-// var path = require("path");
+var path = require("path");
 var s3 = new AWS.S3();
 
-// module.exports.processXmlDataFromS3 = function() {
-//   const region = "eu-central-1";
-//   const bucket = "xmltester123";
-//   const folder = "xmlzips";
-//   const fileName = "xmlsamples.zip";
+module.exports.hello = (event, context, callback) => {
+  var response = {
+    statusCode: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+      "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS
+    },
+    body: JSON.stringify({
+      message: "my first serverless api"
+    })
+  };
+  callback(null, response);
+};
 
-//   const output = fs.createWriteStream(join(__dirname, "xml-files.zip"));
+module.exports.getUsers = function(event, context, callback) {
+  var params = {
+    TableName: USERS_TABLE
+  };
+  dynamoDb.scan(params, function(err, data) {
+    if (err) {
+      var response = {
+        statusCode: 403,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS
+        },
+        body: JSON.stringify(err)
+      };
+      callback(response, null);
+    } else {
+      var response = {
+        statusCode: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS
+        },
+        body: JSON.stringify(data)
+      };
+      callback(null, response);
+    }
+  });
+};
 
-//   s3Zip
-//     .archive({ region: region, bucket: bucket }, folder, [fileName])
-//     .pipe(output);
-// };
+module.exports.createUser = function(event, context, callback) {
+  var json = JSON.parse(event.body);
+  var param = {
+    Item: {
+      userId: json.userId,
+      name: json.name
+    },
+    TableName: USERS_TABLE
+  };
+
+  dynamoDb.put(param, function(err, data) {
+    if (err) {
+      var response = {
+        statusCode: 403,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS
+        },
+        body: JSON.stringify(err)
+      };
+      callback(response, null);
+    } else {
+      console.log("in success code,able to create user", data);
+      var response = {
+        statusCode: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+          "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS
+        },
+        body: JSON.stringify(data)
+      };
+      callback(null, response);
+    }
+  });
+};
 
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
-  // var s3 = new AWS.S3({
-  //     accessKeyId: accessKeyId,
-  //     secretAccessKey: secretAccessKey
-  //   }),
- // var s3 = new AWS.S3({apiVersion: '2006-03-01'});
-var params = {Bucket: 'xmltester123', Key: 'data.xml'};
-  console.log("params",params);
-var file = require('fs').createWriteStream("c:\\users\\local\\data.xml");
- // console.log("path",__dirname+'/data.xml');
-s3.getObject(params).createReadStream().pipe(file);
-  console.log("end---");
-}
+  console.log("processXmlDataFromS3");
+  var response = await downloadZipFromS3();
+  console.log("response finalllllllll", response);
+  // var finalResponse = await writeDataToLocalFileSystem(response);
+};
 
-// module.exports.processXmlDataFromS3 = async function(event, context, callback) {
-//   console.log("processXmlDataFromS3");
-//   // var localDestination = path.join(__dirname, options.key);
-
-//   var localDestination = __dirname + "/xmlsamples.zip";
-//   if (typeof localDestination == "undefined") {
-//     localDestination = keyName;
-//   }
-
-//   file = fs.createWriteStream(localDestination);
-
-//   var response = await downloadZipFromS3(localDestination);
-
-//   console.log("response finalllllllll", response);
-
-//   var finalResponse = await writeDataToLocalFileSystem(response);
-
-//   console.log("final responseeeeeeeeeee", finalResponse);
-// };
-
-// var downloadZipFromS3 = localDestination => {
-//   // file = fs.createWriteStream(localDestination);
-
-//   console.log("download zip");
-//   let options = {
-//     Bucket: "serverlessnodeapp",
-//     Key: "xmlsamples.zip"
-//   };
-
-//   console.log("options", options);
-
-//   console.log("in download zip from s3", localDestination);
-
-//   //let file = fs.createWriteStream(localDestination);
-
-//   return new Promise(function(resolve, reject) {
-//     console.log("in promise");
-//     s3.getObject(options, function(err, data) {
-//       console.log("get objectsssssssssssssssss");
-//       if (err) {
-//         console.log("get objectsssssssssssssssss error", err);
-//         reject(err);
-//       } else {
-//         console.log("get objectsssssssssssssssss data", data);
-//         resolve(data);
-//       }
-//     });
-//   });
-//   //console.log("in getting object");
-//   // Handle any error and exit
-//   // if (err) {
-//   //   console.log("err", err);
-//   //   return err;
-//   // } else console.log("data", data);
-
-//   // No error happened
-//   // Convert Body from a Buffer to a String
-
-//   //let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
-//   // });
-// };
-
-// var writeDataToLocalFileSystem = response => {
-//   fs.writeFile("/tmp/abc.zip", data.Body, function(err) {
-//     if (err) console.log(err.code, "-", err.message);
-//     return callback(err);
-//   });
-//   // response
-//   //   .createReadStream()
-//   //   .on("end", () => {
-//   //     resolve("seems happened");
-//   //   })
-//   //   .on("error", error => {
-//   //     reject("nopesssss");
-//   //   })
-//   //   .pipe(file);
-
-//   //TESTER CODE//
-//   //   var s3 = new AWS.S3({
-//   //     accessKeyId: accessKeyId,
-//   //     secretAccessKey: secretAccessKey
-//   // }),
-//   // file = fs.createWriteStream(localFileName);
-//   // s3
-//   // .getObject({
-//   //     Bucket: bucketName,
-//   //     Key: fileName
-//   // })
-//   // .on('error', function (err) {
-//   //     console.log(err);
-//   // })
-//   // .on('httpData', function (chunk) {
-//   //     file.write(chunk);
-//   // })
-//   // .on('httpDone', function () {
-//   //     file.end();
-//   // })
-//   // .send();
-// };
+var downloadZipFromS3 = () => {
+  let options = {
+    Bucket: "xmltester123",
+    Key: "xmlsamples.zip"
+  };
+  return new Promise(function(resolve, reject) {
+    console.log("in promise");
+    s3.getObject(options, function(err, data) {
+      console.log("get objectsssssssssssssssss");
+      if (err) {
+        console.log("get objectsssssssssssssssss error", err);
+        reject(err);
+      } else {
+        console.log("get objectsssssssssssssssss data", data);
+        resolve(data);
+      }
+    });
+  });
+};
