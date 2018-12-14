@@ -101,10 +101,7 @@ module.exports.createUser = function(event, context, callback) {
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
   console.log("processXmlDataFromS3");
   var unzipFileResponse = await unzipFile();
-  // var response = await downloadZipFromS3();
   console.log("response finalllllllll", unzipFileResponse);
-  // var finalResponse = await writeDataToLocalFileSystem(response);
-  // var processUnzippedFilesResponse = await processUnzippedFiles();
 };
 
 var unzipFile = () => {
@@ -132,14 +129,24 @@ var unzipFile = () => {
               reject(err);
             } else {
               console.log("resolved dataaaaaaaaaaaa", data);
-              resolve(data);
+              // var response = getDataFromXmlFiles(data);
+              // if (response == "error") {
+              //   reject(response);
+              // } else {
+              //   resolve(response);
+              // }
+              // resolve(data);
             }
           });
-          // console.log("unzipped file succesfully");
-          // resolve(success);
         }
       }
     );
+  });
+};
+
+var getDataFromXmlFiles = data => {
+  return new Promise(function(resolve, reject) {
+    data.Contents.forEach(function(currentValue, index, array) {});
   });
 };
 
