@@ -3,12 +3,12 @@ var AWS = require("aws-sdk");
 const USERS_TABLE = process.env.USERS_TABLE;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-//const fs = require("fs");
+const fs = require("fs");
 const join = require("path").join;
 const s3Zip = require("s3-zip");
 var path = require("path");
 var s3 = new AWS.S3();
-var fs = require("fs");
+
 
 module.exports.hello = (event, context, callback) => {
   var response = {
@@ -95,7 +95,6 @@ module.exports.createUser = function(event, context, callback) {
 };
 
 module.exports.processXmlDataFromS3 = async function(event, context, callback) {
-  //fs.mkdirSync(params.Bucket+ "/" + <FolderName>);
   console.log("processXmlDataFromS3");
   var response = await downloadZipFromS3();
   console.log("response finalllllllll", response);
@@ -103,29 +102,51 @@ module.exports.processXmlDataFromS3 = async function(event, context, callback) {
 };
 
 var downloadZipFromS3 = () => {
-  let options = {
-    Bucket: "xmltester123",
-    Key: "xmlsamples.zip"
-  };
-
-  fs.mkdirSync(options.Bucket);
-
+  console.log("in download zip from s3");
+     let options = {
+      Bucket: "xmltester123",
+      Key: "xmlsamples.zip"
+     };
   return new Promise(function(resolve, reject) {
-    console.log("in promise");
-    s3.getObject(options, function(err, data) {
-      console.log("get objectsssssssssssssssss");
+    s3.getObject(options, function(err, data){   
       if (err) {
-        console.log("get objectsssssssssssssssss error", err);
+        console.log("error in getting data");
         reject(err);
-      } else {
-        console.log("get objectsssssssssssssssss data", data);
-        fs.writeFile(params.Bucket, data.Body, function() {
-          console.log("in writing file");
-          resolve("Finished downloading the file", data.key);
-          //console.log("Finished downloading the file: " + currentValue.Key);
+      }
+      else{
+        console.log("got the data",data);
+        fs.writeFile('/tmp/filename', data.Body, function(err){
+          if(err){
+            console.log("error in writing the file to temporary folder");
+               reject(err);
+          }
+          else{
+            console.log("succesfully downloaded the file");
+             resolve("File succesfuly downloaded");
+          }
         });
-        //resolve(data);
       }
     });
-  });
-};
+  }
+
+
+
+// var downloadZipFromS3 = () => {
+//   let options = {
+//     Bucket: "xmltester123",
+//     Key: "xmlsamples.zip"
+//   };
+//   return new Promise(function(resolve, reject) {
+//     console.log("in promise");
+//     s3.getObject(options, function(err, data) {
+//       console.log("get objectsssssssssssssssss");
+//       if (err) {
+//         console.log("get objectsssssssssssssssss error", err);
+//         reject(err);
+//       } else {
+//         console.log("get objectsssssssssssssssss data", data);
+//         resolve(data);
+//       }
+//     });
+//   });
+// };
